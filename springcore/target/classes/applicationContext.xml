@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    ">
+	
+	<tx:annotation-driven />
+
+	<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/justanotherjavaguy" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+	
+	
+	<bean id="factory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="ds" />
+		<property name="hibernateProperties" >
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</prop>
+				<prop key="hibernate.show-sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>com.jajg.ormentity.OrmStudent</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="factory" />
+	</bean>
+	
+	<bean id="template" class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<property name="sessionFactory" ref="factory" />
+	</bean>
+	
+	<bean id="ormdao" class="com.jajg.ormdao.StudentOrmDao">
+		<property name="template" ref="template" />
+	</bean>
+	
+<!-- 	<bean id="template" class="org.springframework.jdbc.core.JdbcTemplate">  -->
+<!-- 		<property name="dataSource" ref="ds" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="emp" class="com.jajg.dao.EmployeeDao"> -->
+<!-- 		<property name="template" ref="template" /> -->
+<!-- 	</bean> -->
+
+<!-- constructor injection for injecting object of one class to another -->
+	
+<!-- 	<bean id="address1" class="com.jajg.Address">	 -->
+
+<!--  		 		<property name="address"> -->
+<!--  		 			<value>Kolkata house</value> -->
+<!--  		 		</property> -->
+<!--  	</bean> -->
+<!--  	<bean id="student1" class="com.jajg.Student">	 -->
+<!--  		 		<constructor-arg value="1" type="int" index="0"/> -->
+<!--  		 		<constructor-arg ref="address1" type="Address" index="1"/> -->
+<!--  	</bean> -->
+
+<!-- setter injection for injecting object of one class to another -->
+
+<!-- 	<bean id="address1" class="com.jajg.Address">	 -->
+
+<!--  		 		<property name="address"> -->
+<!--  		 			<value>Bangalore house</value> -->
+<!--  		 		</property> -->
+<!--  	</bean> -->
+<!--  	<bean id="student1" class="com.jajg.Student">	 -->
+<!--  		 		<property name="sId"> -->
+<!--  		 			<value>1</value> -->
+<!--  		 		</property> -->
+<!--  		 		<property name="address" ref="address1" /> -->
+<!--  	</bean> -->
+
+<!-- setter injection -->
+	
+<!--  	<bean id="student1" class="com.jajg.Student">	 -->
+<!--  		 		<property name="sId"> -->
+<!--  		 			<value>1</value> -->
+<!--  		 		</property> -->
+<!--  		 		<property name="sAdderess"> -->
+<!--  		 			<value>Bangalore</value> -->
+<!--  		 		</property> -->
+<!--  	</bean> 
+-->
+	
+	
+	
+    <!-- 
+    <bean id="footballCoach"
+ 		class="com.greatlearning.springdemo.FootballCoach">	 		
+ 	</bean>
+     -->
+
+</beans>
+
+
+
+
+
